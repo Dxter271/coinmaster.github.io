@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Coin Master Landing Page</title>
+    <style>
+      /* Add your custom CSS styles here */
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-image: url("https://i.imgur.com/Z0vcnEg.jpg"); /* Updated background image */
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        opacity: 0.9; /* Adjust the opacity as needed */
+      }
+
+      header {
+        background-color: #333;
+        padding: 20px 0;
+        color: #fff;
+        text-align: center;
+        z-index: 1;
+      }
+
+      .logo {
+        font-size: 30px;
+        font-weight: bold;
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+        justify-content: center;
+        margin-top: 15px;
+        z-index: 1;
+      }
+
+      nav li {
+        margin: 0 15px;
+      }
+
+      nav a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 18px;
+        transition: color 0.3s ease-in-out;
+      }
+
+      nav a:hover {
+        color: #ffd740;
+      }
+
+      .banner {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 80vh;
+        position: relative;
+        z-index: 1;
+      }
+
+      .claim-btn {
+        background-color: #ffd740;
+        border: none;
+        color: #fff;
+        padding: 15px 30px;
+        cursor: pointer;
+        font-size: 20px;
+        border-radius: 8px;
+        transition: background-color 0.3s ease-in-out;
+        margin-top: 20px;
+        z-index: 2;
+      }
+
+      .claim-btn:hover {
+        background-color: #ffc107;
+      }
+
+      .popup-wrapper {
+        position: relative;
+        z-index: 1;
+      }
+
+      .popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        max-width: 600px;
+        padding: 30px;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 15px;
+        z-index: 10;
+        display: none;
+        animation: scrollUpDown 5s infinite alternate; /* Scroll up and down animation */
+      }
+
+      @keyframes scrollUpDown {
+        0% {
+          transform: translate(-50%, -50%);
+        }
+        100% {
+          transform: translate(-50%, -50%) translateY(20px);
+        }
+      }
+
+      .popup form {
+        max-width: 100%;
+      }
+
+      .popup label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 18px;
+      }
+
+      .popup input[type="email"] {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+
+      .popup-button {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 8px;
+        background-color: #ffd740;
+        color: #fff;
+        font-size: 18px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+      }
+
+      .popup-button:hover {
+        background-color: #ffc107;
+      }
+
+      .progress-bar {
+        display: none;
+        width: 100%;
+        height: 20px;
+        margin-top: 20px;
+        border-radius: 10px;
+        overflow: hidden;
+        background-color: #ddd;
+      }
+
+      .progress-bar-fill {
+        height: 100%;
+        background-color: #ffd740;
+        border-radius: 10px;
+        width: 1%;
+        transition: width 1s linear;
+      }
+
+      .final {
+        display: none;
+      }
+
+      .popup-link {
+        display: none;
+        text-decoration: none;
+        color: #333;
+        font-size: 18px;
+      }
+
+      .stylish-message {
+        display: none;
+        color: #ffd740; /* Change to yellow */
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo">Coin Master</div>
+      <nav>
+        <ul>
+          <li><a href="#">Home</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section class="banner">
+      <button class="claim-btn" id="claim-button">Click here to get your gift</button>
+    </section>
+
+    <section class="popup-wrapper">
+      <!-- Popup window -->
+      <div class="popup" id="popup-1">
+        <!-- Form section -->
+        <form action="#" method="post" id="gift-form">
+          <label for="email">Email:</label>
+          <input type="email" name="email" id="email" required />
+          <button type="button" class="popup-button" id="continue-button">Continue</button>
+        </form>
+        <!-- Progress bar section -->
+        <div class="progress-bar" id="progress-bar">
+          <div class="progress-bar-fill" id="progress-bar-fill"></div>
+        </div>
+        <!-- Final message section -->
+        <div class="final" id="final">
+          <button class="claim-btn" id="final-button">Claim Your Gift</button>
+          <!-- Stylish message section -->
+          <div class="stylish-message" id="stylish-message">Gift claimed successfully!</div>
+        </div>
+        <!-- Popup link section -->
+        <a href="https://cutt.ly/ywD7dMDm" class="popup-link" id="popup-link" target="_blank">Click here to claim your gift</a>
+      </div>
+    </section>
+
+    <script>
+      // Add your custom JavaScript code here
+      // Get the elements by their IDs
+      const claimButton = document.getElementById("claim-button");
+      const popup = document.getElementById("popup-1");
+      const giftForm = document.getElementById("gift-form");
+      const continueButton = document.getElementById("continue-button");
+      const progressBar = document.getElementById("progress-bar");
+      const progressBarFill = document.getElementById("progress-bar-fill");
+      const final = document.getElementById("final");
+      const finalButton = document.getElementById("final-button");
+      const popupLink = document.getElementById("popup-link");
+      const stylishMessage = document.getElementById("stylish-message");
+
+      // Add an event listener to the claim button to show the popup
+      claimButton.addEventListener("click", () => {
+        claimButton.style.display = "none"; // Hide the first button
+        popup.style.display = "block";
+      });
+
+      // Add an event listener to the form to prevent the default submission and show the progress bar
+      continueButton.addEventListener("click", () => {
+        // Hide the form and the continue button
+        giftForm.style.display = "none";
+        continueButton.style.display = "none";
+        // Show the progress bar and start filling it
+        progressBar.style.display = "block";
+        progressBarFill.style.width = "100%";
+        // After one second, show the final message and hide the progress bar
+        setTimeout(() => {
+          final.style.display = "flex";
+          stylishMessage.style.display = "block"; // Show the stylish message
+          progressBar.style.display = "none";
+        }, 1000);
+      });
+
+      // Add an event listener to the final button to redirect to the specified link
+      finalButton.addEventListener("click", () => {
+        window.open("https://cutt.ly/ywD7dMDm", "_blank"); // Open in a new tab
+      });
+    </script>
+  </body>
+</html>
